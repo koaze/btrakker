@@ -1,0 +1,114 @@
+<!-- begin row 2 -->
+<div class="row">
+
+	<div class="row" style="width: 350px; height: 370px; text-align: center; position: relative; background-color:rgba(0,0,0,0.25); box-shadow: inset -4px -4px rgba(0,0,0,0.15); border-radius: 10px; margin: 0 auto; margin-top: -520px;">
+
+		<center>
+			<div class="col-sm-12" style="margin-top: 15px;"">
+				<div class="header-avatar" style="background-image:url(<%= User.find_by_username(params[:id]).avatar_url %>);">
+				</div>
+				
+        </div>
+				<h3 style="font-weight: bold; color: #e6e6e6;"><%= User.find_by_username(params[:id]).name %> <%= User.find_by_username(params[:id]).surname %> </h3> <h4 style="font-weight: bold; color: #e6e6e6; opacity:0.8;">@<%= params[:id] %></h4>
+				<p style="color: #e6e6e6;"><%= User.find_by_username(params[:id]).status %></p>
+			</div>
+		</center>
+	</div>
+
+	<div class="col-xs-3">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<h5 style="color: grey; font-size: 125%;">trends</h5>
+					<a href="">#Trend #1</a><br>
+						<span style="color: grey;">0k Posts</span><br><br>
+					<a href="">#Trend #2</a><br>
+						<span style="color: grey;">0k Posts</span><br><br>
+					<a href="">#Trend #3</a><br>
+						<span style="color: grey;">0k Posts</span><br><br>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="col-xs-6">
+		<% if current_user.username != params[:id] %>		
+		<% for @p in @posts %>
+		<div class="panel panel-default post-panel">
+			<div class="panel-body row">
+				<div class="col-sm-1">
+					<div class="header-avatar-post-content" style="background-image:url(<%= User.find_by_username(params[:id]).avatar_url %>);">
+					</div>
+				</div>
+				<div class="col-sm-11">
+					<p class="post-title"><span class="post-owner"><a href="/user/<%= User.find_by_username(params[:id]).username %>"><%= User.find_by_username(params[:id]).name %> <%= User.find_by_username(params[:id]).surname %></span></a> <span class="post-creation"> @<%= User.find(@p.user_id).username %> - <%= @p.created_at.to_formatted_s(:short) %></span>
+					<p class="post-content"><%= @p.content %></p>
+				</div>
+				<div class="col-sm-12">
+					<p class="post-links"></p>
+						<span class="glyphicon glyphicon-heart g-links" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-retweet g-links" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-trash g-links" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-option-horizontal g-links" aria-hidden="true"></span>
+						<a href="">View Conversation</a>
+				</div>
+
+			</div>
+		</div>
+		<% end %>
+		<% else %>
+		<%= render '/components/post_form' %><br><br>
+		<% for @p in @posts %>
+		<div class="panel panel-default post-panel">
+			<div class="panel-body row">
+				<div class="col-sm-1">
+					<div class="header-avatar-post-content" style="background-image:url(<%= (User.find_by_username(params[:id])).avatar_url %>);">
+					</div>
+				</div>
+				<div class="col-sm-11">
+					<p class="post-title"><span class="post-owner"><a href="/user/<%= current_user.username %>"><%= User.find_by_username(params[:id]).name %> <%= User.find_by_username(params[:id]).surname %></span></a> <span class="post-creation"> @<%= User.find(@p.user_id).username %> - <%= @p.created_at.to_formatted_s(:short) %></span>
+					<p class="post-content"><%= @p.content %></p>
+				</div>
+				<div class="col-sm-12">
+					<p class="post-links"></p>
+						<span class="glyphicon glyphicon-heart g-links" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-retweet g-links" aria-hidden="true"></span>
+						<%= link_to post_path(@p), method: :delete, data: { confirm: 'Are you sure?' } do %>
+						<span class="glyphicon glyphicon-trash g-links" aria-hidden="true"></span>
+						<% end %>
+						<span class="glyphicon glyphicon-option-horizontal g-links" aria-hidden="true"></span>
+						<a href="">View Conversation</a>
+				</div>
+
+			</div>
+		</div>
+		<% end %>
+		<% end %>
+
+
+		<div class="panel panel-default post-panel">
+			<div class="panel-body row">
+				<div class="col-sm-12">
+				<center><a href="#top"><p class="opacity: .7;">Back to Top <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></p></a></center>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xs-3">
+	<%= render '/components/follow_button', :user => User.find_by_username(params[:id]) %>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				
+				<h5 style="color: grey; font-size: 125%;">Who to Follow</h5>
+				<% for @u in @toFollow do %>
+					<p style="font-weight: bold; opacity: 0.85;"><a href="/user/<%= @u.username %>"><%= @u.username %></a></p>
+				<% end %>
+			</div>
+		</div>		
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<p style="opacity: 0.5; font-size: 90%;">@2016 BackTrakker  |  About  |  Help  |  Terms  |  Privacy  |  Cookies  |  Ads  </p>
+			</div>
+		</div>
+	</div>
+</div>
