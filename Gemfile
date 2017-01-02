@@ -1,9 +1,5 @@
 source 'https://rubygems.org'
-
-git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
-  "https://github.com/#{repo_name}.git"
-end
+ruby '2.4.0' #specify ruby version
 
 # image optimisations
 gem "mini_magick"
@@ -17,6 +13,8 @@ gem 'bootstrap-sass', '~> 3.3.6'
 gem 'rails', '~> 5.0.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
+# Heroku pre-req
+gem 'rails_12factor', group: :production # don't use locally only on heroku.
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
